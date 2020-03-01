@@ -38,24 +38,9 @@ class MasterVC: UIViewController,
 
     lazy var searchBtnItem: UIBarButtonItem = {
 
-        let searchBtnItem = UIButton()
-
-        searchBtnItem.setImage(UIImage(named: "UITabBarSearchTemplate"),
-                               for: .normal)
-        searchBtnItem.addTarget(self,
-                                action: #selector(toggleSearchBar(_:)),
-                                for: .touchUpInside)
-        let gridBtnItem = UIBarButtonItem(customView: searchBtnItem)
-
-        // constraints
-        NSLayoutConstraint.activate([
-            (gridBtnItem.customView?.widthAnchor.constraint(equalToConstant: 22))!,
-            (gridBtnItem.customView?.heightAnchor.constraint(equalToConstant: 22))!
-        ])
-
-        gridBtnItem.tintColor = .label
-
-        return gridBtnItem
+        return UIBarButtonItem(barButtonSystemItem: .search,
+                               target: self,
+                               action: #selector(searchTapped(_:)))
     }()
 
     // MARK: - View Setup
@@ -204,7 +189,7 @@ class MasterVC: UIViewController,
     }
 
     // MARK: - action methods
-    @objc func toggleSearchBar(_ sender: Any) {
+    @objc func searchTapped(_ sender: Any) {
 
         showSearchBar(show: self.navigationItem.searchController == nil)
     }
@@ -223,6 +208,8 @@ class MasterVC: UIViewController,
 
                 if #available(iOS 13, *) {
                     self.navigationItem.searchController = self.searchController
+                    //self.navigationItem.hidesSearchBarWhenScrolling = false
+                    //self.searchController.isActive = true
                 }
 
             }, completion: { (status) in
@@ -244,6 +231,7 @@ class MasterVC: UIViewController,
 
                 if #available(iOS 13, *) {
                     self.navigationItem.searchController = nil
+                    //self.searchController.isActive = false
                 }
             })
         }
