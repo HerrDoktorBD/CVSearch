@@ -1,2 +1,2 @@
 # CVSearch
-Show/hide UISearchBar
+Clone of candy search to show/hide UISearchBar.
