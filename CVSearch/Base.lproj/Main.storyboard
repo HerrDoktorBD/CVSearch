@@ -98,7 +98,7 @@
         <!--Master-->
         <scene sceneID="CWj-zI-HWz">
             <objects>
-                <viewController title="Master" id="PIm-xb-9tu" customClass="MasterVC" customModule="CVSearch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MasterVC" title="Master" useStoryboardIdentifierAsRestorationIdentifier="YES" id="PIm-xb-9tu" customClass="MasterVC" customModule="CVSearch" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="R6W-vE-F73"/>
                         <viewControllerLayoutGuide type="bottom" id="sAk-k2-4qg"/>
@@ -169,12 +169,17 @@
                             <rect key="frame" x="67.5" y="5.5" width="240" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Inline-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="svX-yb-LUO">
-                                    <rect key="frame" x="-55" y="-7" width="349" height="47"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Inline-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="svX-yb-LUO">
+                                    <rect key="frame" x="-55" y="-7" width="350" height="47"/>
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="svX-yb-LUO" firstAttribute="centerX" secondItem="AaE-IH-1rI" secondAttribute="centerX" id="Lkf-ff-OkK"/>
+                                <constraint firstItem="svX-yb-LUO" firstAttribute="top" secondItem="AaE-IH-1rI" secondAttribute="top" constant="-7" id="Nfb-VR-ziD"/>
+                                <constraint firstItem="svX-yb-LUO" firstAttribute="centerY" secondItem="AaE-IH-1rI" secondAttribute="centerY" id="bnE-RW-R8h"/>
+                                <constraint firstItem="svX-yb-LUO" firstAttribute="leading" secondItem="AaE-IH-1rI" secondAttribute="leading" constant="-55" id="pcA-Jp-c4y"/>
+                            </constraints>
                         </view>
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

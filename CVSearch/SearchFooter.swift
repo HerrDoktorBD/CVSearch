@@ -28,6 +28,7 @@ class SearchFooter: UIView {
         // Configure label
         label.textAlignment = .center
         label.textColor = UIColor.white
+
         addSubview(label)
     }
 

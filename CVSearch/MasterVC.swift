@@ -19,14 +19,15 @@ class MasterVC: UIViewController,
     lazy var searchController: UISearchController = {
 
         let searchController = UISearchController(searchResultsController: nil)
-
-        searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Candy"
+
+        let sb = searchController.searchBar
+        sb.delegate = self
+        sb.placeholder = "Search Candy"
 
         // scope bar
-        searchController.searchBar.scopeButtonTitles = [
+        sb.scopeButtonTitles = [
             "All",
             "Chocolate",
             "Hard",
@@ -47,6 +48,7 @@ class MasterVC: UIViewController,
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        //print(#function)
 
         // setup the search footer
         tableView.tableFooterView = searchFooter
@@ -79,16 +81,19 @@ class MasterVC: UIViewController,
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //print(#function)
 
         if splitViewController!.isCollapsed {
             if let selectionIndexPath = tableView.indexPathForSelectedRow {
                 tableView.deselectRow(at: selectionIndexPath, animated: animated)
+                //print("tableView.deselectRow")
             }
         }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        //print(#function)
     }
 
     override func didReceiveMemoryWarning() {
@@ -167,13 +172,13 @@ class MasterVC: UIViewController,
 
     func searchBarIsEmpty() -> Bool {
 
-        let sb: UISearchBar = searchController.searchBar
+        let sb = searchController.searchBar
         return sb.text?.isEmpty ?? true
     }
 
     func isFiltering() -> Bool {
 
-        let sb: UISearchBar = searchController.searchBar
+        let sb = searchController.searchBar
         let searchBarScopeIsFiltering = sb.selectedScopeButtonIndex != 0
         return searchController.isActive && (!searchBarIsEmpty() || searchBarScopeIsFiltering)
     }
@@ -183,12 +188,28 @@ class MasterVC: UIViewController,
         tableView.reloadData()
     }
 
+    // MARK: - action methods
+
+    @objc func pushPopEmptyUIViewController() {
+
+        UIView.animate(withDuration: 0.2,
+                       delay: 0.0,
+                       options: .curveEaseOut,
+                       animations: {
+
+            let vc = UIViewController()
+
+            self.navigationController?.pushViewController(vc, animated: false)
+            self.navigationController?.popViewController(animated: false)
+
+        }, completion: nil)
+    }
+
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
 
         showSearchBar(show: false)
     }
 
-    // MARK: - action methods
     @objc func searchTapped(_ sender: Any) {
 
         showSearchBar(show: self.navigationItem.searchController == nil)
@@ -196,7 +217,7 @@ class MasterVC: UIViewController,
 
     func showSearchBar(show: Bool) {
 
-        let sb: UISearchBar = searchController.searchBar
+        let sb = searchController.searchBar
 
         if show {
             //print("show searchbar")
@@ -208,8 +229,6 @@ class MasterVC: UIViewController,
 
                 if #available(iOS 13, *) {
                     self.navigationItem.searchController = self.searchController
-                    //self.navigationItem.hidesSearchBarWhenScrolling = false
-                    //self.searchController.isActive = true
                 }
 
             }, completion: { (status) in
@@ -231,8 +250,12 @@ class MasterVC: UIViewController,
 
                 if #available(iOS 13, *) {
                     self.navigationItem.searchController = nil
-                    //self.searchController.isActive = false
                 }
+
+                // this will reset the navigationItem height
+                self.perform(#selector(self.pushPopEmptyUIViewController),
+                             with: nil,
+                             afterDelay: 0.1)
             })
         }
     }
@@ -245,8 +268,11 @@ extension MasterVC: UISearchBarDelegate {
     func searchBar(_ sb: UISearchBar,
                    selectedScopeButtonIndexDidChange selectedScope: Int) {
 
-        filterContentForSearchText(sb.text!,
-                                   scope: sb.scopeButtonTitles![selectedScope])
+        if let sbt = sb.scopeButtonTitles {
+            let scope = sbt[selectedScope]
+            filterContentForSearchText(sb.text!,
+                                       scope: scope)
+        }
     }
 }
 
@@ -256,10 +282,12 @@ extension MasterVC: UISearchResultsUpdating {
 
     func updateSearchResults(for searchController: UISearchController) {
 
-        let sb: UISearchBar = searchController.searchBar
+        let sb = searchController.searchBar
 
-        let scope = sb.scopeButtonTitles![sb.selectedScopeButtonIndex]
-        filterContentForSearchText(sb.text!,
-                                   scope: scope)
+        if let sbt = sb.scopeButtonTitles {
+            let scope = sbt[sb.selectedScopeButtonIndex]
+            filterContentForSearchText(sb.text!,
+                                       scope: scope)
+        }
     }
 }
