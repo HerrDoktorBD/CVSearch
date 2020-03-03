@@ -153,6 +153,7 @@ class MasterVC: UIViewController,
     }
 
     // MARK: - Private instance methods
+
     func filterContentForSearchText(_ searchText: String,
                                     scope: String = "All") {
 
@@ -232,6 +233,7 @@ class MasterVC: UIViewController,
                            animations: {
 
                 if #available(iOS 13, *) {
+                    self.searchController.isActive = true
                     self.navigationItem.searchController = self.searchController
                 }
 
@@ -253,6 +255,7 @@ class MasterVC: UIViewController,
             }, completion: { (status) in
 
                 if #available(iOS 13, *) {
+                    self.searchController.isActive = false
                     self.navigationItem.searchController = nil
                 }
 
