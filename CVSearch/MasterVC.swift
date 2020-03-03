@@ -190,8 +190,9 @@ class MasterVC: UIViewController,
 
     // MARK: - action methods
 
-    @objc func pushPopEmptyUIViewController() {
+    @objc func forceNavHeightReset() {
 
+        /*
         UIView.animate(withDuration: 0.2,
                        delay: 0.0,
                        options: .curveEaseOut,
@@ -203,6 +204,9 @@ class MasterVC: UIViewController,
             self.navigationController?.popViewController(animated: false)
 
         }, completion: nil)
+ */
+        self.navigationController?.view.setNeedsLayout()
+        self.navigationController?.view.layoutIfNeeded()
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -252,8 +256,8 @@ class MasterVC: UIViewController,
                     self.navigationItem.searchController = nil
                 }
 
-                // this will reset the navigationItem height
-                self.perform(#selector(self.pushPopEmptyUIViewController),
+                // this will force a reset of the navigationItem height
+                self.perform(#selector(self.forceNavHeightReset),
                              with: nil,
                              afterDelay: 0.1)
             })
